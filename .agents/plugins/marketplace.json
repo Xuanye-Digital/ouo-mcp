@@ -1,0 +1,20 @@
+{
+  "name": "ouo",
+  "interface": {
+    "displayName": "轩晔ouo"
+  },
+  "plugins": [
+    {
+      "name": "ouo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ouo"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creativity"
+    }
+  ]
+}

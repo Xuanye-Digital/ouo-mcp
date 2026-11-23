@@ -1,0 +1,28 @@
+{
+  "name": "ouo",
+  "version": "1.0.0",
+  "description": "在 Codex 中读取轩晔ouo 项目、画布与素材，完成图片和视频创作。",
+  "author": {
+    "name": "OUO"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "轩晔ouo",
+    "shortDescription": "轩晔ouo 图片与视频创作工作流",
+    "longDescription": "连接您的轩晔ouo 账户，在已授权空间查看项目、画布与素材，编辑创作内容，生成图片和视频，并跟进任务进度与结果。支持从剧本规划分镜、复用素材和按镜头顺序制作整集视频；付费操作需经确认或有效授权。",
+    "developerName": "OUO",
+    "logo": "./assets/ouo-icon.png",
+    "composerIcon": "./assets/ouo-icon.png",
+    "category": "Creativity",
+    "capabilities": ["Read", "Write", "Interactive"],
+    "brandColor": "#0E7490",
+    "defaultPrompt": [
+      "查看当前空间可用的图片和视频模型",
+      "用轩晔ouo 根据我的创意生成一张图片",
+      "用轩晔ouo 创建一个短视频并跟进生成进度",
+      "查看我最近的轩晔ouo 生成任务和结果",
+      "查看我的轩晔ouo 项目并读取画布内容"
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ouo": {
+      "type": "http",
+      "url": "https://ouo.xuanyeai.com/mcp",
+      "oauth_resource": "https://ouo.xuanyeai.com/mcp",
+      "tool_timeout_sec": 120
+    }
+  }
+}
