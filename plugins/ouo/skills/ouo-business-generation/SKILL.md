@@ -43,7 +43,7 @@ description: 通过已连接的 OUO MCP 查看项目、画布、素材和已有�
 
 ## 提示词创作与审阅
 
-新编写或获准改写图片、视频提示词时，默认使用 OUO 内置 `image-prompt-writing`、`video-prompt-writing`。先调用对应的 `get_image_prompt_guide` 或 `get_video_prompt_guide` 读取 `section=writing`。常规单图或单镜头可直接写作，三视图、复杂编辑、多镜头等需要具体写法时再读 `patterns`，示例按需。同一请求复用已读章节。仅搭建工作流或只写提示词同样适用。用户明确指定其他 Skill 或写法时按其要求读取和应用，保留用户给定的事实、风格和格式。
+新编写或获准改写图片、视频提示词时，默认使用 OUO 内置 `image-prompt-writing`、`video-prompt-writing`。按 [随包完整指南与版本规则](../ouo-script-to-film/references/prompt-guides.md) 选择对应 `writing`：当前 MCP 返回相同 Skill/契约且版本不低于随包版时，可使用 `get_image_prompt_guide` 或 `get_video_prompt_guide`；工具缺失、旧版或读取失败时直接读取随包完整章节，不能只用摘要或混入旧版限制。常规单图或单镜头可直接写作，三视图、复杂编辑、多镜头等需要具体写法时再读同一依据的 `patterns`，示例按需。同一请求复用已读章节。仅搭建工作流或只写提示词同样适用。用户明确指定其他 Skill 或写法时按其要求读取和应用，保留用户给定的事实、风格和格式。
 
 用户指定本地或团队写作 Skill 时，由当前宿主按实际 Skill 目录或用户提供的准确位置读取和应用，不全盘搜索用户目录，不把本机 Skill 上传给 MCP。MCP 指南只返回随包文本，服务端不读取用户电脑；本地写作 Skill 可以提供文本方法，不代表提供媒体生成能力。用户指定的 Skill 不可访问时说明具体缺口，不谎称已使用或静默换成另一套写法。
 

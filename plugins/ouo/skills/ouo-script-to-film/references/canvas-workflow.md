@@ -133,25 +133,33 @@
 
 原生 `@` 引用必须由 MCP 写进提示词：先连接素材，再调用 `edit_canvas` 的 `set_prompt`，按句中位置交错传入 `parts`。文字是 `{kind:"text",text:"…"}`，引用是 `{kind:"reference",source_node_id:"准确节点或$本批key",media_kind:"image|video|audio",output_index:0}`。它完整替换提示词，原有需要保留的内容也要放入文字片段；目标仅支持图片/视频生成节点，省略 `connection_id`。已有目标和来源先回读并传 `expected_nodes`；同批先创建、连线，再用 `$key` 引用。服务按原生素材排序编译真实标记，不手写猜测的序号，不把普通“@角色名”当作原生引用。
 
-每个引用都要逐项指代具体主体与用途，例如“女主外观：〔女主图原生引用〕；银行经理外观：〔经理图原生引用〕；场景（银行营业厅）：〔营业厅图原生引用〕；女士鞋（女主持有）：〔鞋图原生引用〕；女主声音：〔女主音色原生引用〕”。使用“主体：引用”或“主体=引用”均可；不能只写“人物外观：引用 引用；场景：引用；道具：引用”，也不能只依赖素材芯片中的名称让模型猜归属。多个角色、场景、道具或不同状态分别写清，外观和声音分开，持有者有剧本依据才标注。身份或用途不明先核对原稿、制作实体及准确来源，不按连线顺序猜测。
+每个引用都要逐项指代具体主体与用途，并插到实际动作、构图或声音对应的句子中。开头可列映射，但切镜、反打、再次入画、焦点换人和关键持物交互处须重新明确有关主体的引用，例如“过经理〔经理图原生引用〕的肩拍女主〔女主图原生引用〕”，下一镜“反打经理〔同一经理图原生引用〕”。不能只在类别后堆引用、只在开头列一次或只依赖素材芯片名称。多个角色、场景、道具或不同状态分别写清，外观与声音分开，持有者有剧本依据才标注。同段指代清楚时不逐词重复。身份或用途不明先核对原稿、制作实体及准确来源，不按连线顺序猜测。
 
-以下 `parts` 示范仅说明“主体文字紧邻真实引用”的写法，来源键须替换为当前批次已创建并连接的准确节点；正文其他内容也须一并保留：
+以下 `parts` 为虚构写法示范，展示同一来源在正文多个位置复用。来源键须替换为当前批次已创建并连接的准确节点；不为重复引用复制素材或重复连线，正文其他内容也须一并保留：
 
 ```json
 [
-  {"kind":"text","text":"女主外观："},
-  {"kind":"reference","source_node_id":"$lead","media_kind":"image","output_index":0},
-  {"kind":"text","text":"；银行经理外观："},
-  {"kind":"reference","source_node_id":"$manager","media_kind":"image","output_index":0},
-  {"kind":"text","text":"；场景（银行营业厅）："},
+  {"kind":"text","text":"银行营业厅场景"},
   {"kind":"reference","source_node_id":"$lobby","media_kind":"image","output_index":0},
-  {"kind":"text","text":"；女士鞋（女主持有）："},
+  {"kind":"text","text":"。镜头1，女主"},
+  {"kind":"reference","source_node_id":"$lead","media_kind":"image","output_index":0},
+  {"kind":"text","text":"将右手持有的女士鞋"},
   {"kind":"reference","source_node_id":"$shoes","media_kind":"image","output_index":0},
-  {"kind":"text","text":"。\n女主直视经理，经理移开视线。"}
+  {"kind":"text","text":"放上柜台，看向银行经理"},
+  {"kind":"reference","source_node_id":"$manager","media_kind":"image","output_index":0},
+  {"kind":"text","text":"。\n镜头2，同侧反打经理"},
+  {"kind":"reference","source_node_id":"$manager","media_kind":"image","output_index":0},
+  {"kind":"text","text":"。经理看向女主"},
+  {"kind":"reference","source_node_id":"$lead","media_kind":"image","output_index":0},
+  {"kind":"text","text":"，没有开口。\n镜头3，切回女主"},
+  {"kind":"reference","source_node_id":"$lead","media_kind":"image","output_index":0},
+  {"kind":"text","text":"与鞋"},
+  {"kind":"reference","source_node_id":"$shoes","media_kind":"image","output_index":0},
+  {"kind":"text","text":"的近景，女主收回右手，鞋留在柜台原位。"}
 ]
 ```
 
-保存后逐项对照主体名称、用途、状态与真实 `source_node_id`，独立回读引用和正文；仅确认存在 `@` 不算指代审阅通过。创作正文中的自然语言规则不禁止画布编译提示词包含上述指代；模型的引用标签及媒体参数仍按所选模型真实契约分别核验，不将画布标记直接当作模型输入。
+保存后逐镜逐处对照主体名称、用途、状态与真实 `source_node_id`，独立回读引用和正文。重复引用必须仍指向同一准确来源，不能在反打或结尾错用其他人物、道具或场景的编号；仅确认存在 `@` 或数量足够不算指代审阅通过。视频创作正文保留有实际依据的就地引用；模型的引用标签及媒体参数按所选模型真实契约分别核验，不将画布标记直接当作模型输入。
 
 目标使用普通图片/视频生成节点。专用工作流和视频编辑草稿有额外的素材目录，当前 `set_prompt` 明确拒绝；不能用普通目录猜序号或把草稿原视频当作连接来源。
 
